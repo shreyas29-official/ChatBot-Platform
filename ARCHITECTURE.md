@@ -9,7 +9,7 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │    Backend      │    │   Database      │
-│   (React)       │◄──►│   (Node.js)     │◄──►│  (PostgreSQL)   │
+│   (React)       │◄──►│   (Node.js)     │◄──►│   (MongoDB)     │
 │                 │    │                 │    │                 │
 │ - User Interface│    │ - REST API      │    │ - User Data     │
 │ - State Mgmt    │    │ - Authentication│    │ - Projects      │
@@ -18,7 +18,7 @@ The Chatbot Platform is a full-stack web application designed to provide users w
                               │
                               ▼
                     ┌─────────────────┐
-                    │   OpenAI API    │
+                    │ OpenRouter API  │
                     │                 │
                     │ - Chat Completion│
                     │ - AI Responses  │
@@ -40,7 +40,7 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 - **Framework**: Express.js
 - **Authentication**: JWT (JSON Web Tokens)
 - **Password Hashing**: bcrypt
-- **Database Client**: node-postgres (pg)
+- **Database ODM**: Mongoose
 - **File Upload**: Multer
 - **Environment**: dotenv
 
@@ -50,7 +50,7 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 - **Connection**: Built-in connection pooling
 
 ### External Services
-- **AI Provider**: OpenAI GPT API
+- **AI Provider**: OpenRouter API with Llama models
 - **File Storage**: Local filesystem (extensible to cloud storage)
 
 ## System Components
@@ -68,10 +68,10 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 - **Error handling** with consistent response format
 
 ### 3. Data Layer
-- **PostgreSQL database** with ACID compliance
+- **MongoDB database** with flexible document storage
 - **Connection pooling** for efficient resource usage
-- **Automated schema initialization**
-- **Foreign key relationships** for data integrity
+- **Automated schema validation** with Mongoose
+- **Document relationships** using ObjectId references
 
 ### 4. Presentation Layer (Frontend)
 - **Component-based architecture** with React
@@ -165,7 +165,7 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 
 ### Data Protection
 - **Input validation** on all endpoints
-- **SQL injection prevention** using parameterized queries
+- **NoSQL injection prevention** using Mongoose validation
 - **File upload restrictions** (type, size limits)
 - **CORS configuration** for cross-origin requests
 
@@ -198,16 +198,16 @@ The Chatbot Platform is a full-stack web application designed to provide users w
 
 ### Development Environment
 ```
-Frontend (Vite Dev Server) ←→ Backend (Node.js) ←→ PostgreSQL (Local)
+Frontend (Vite Dev Server) ←→ Backend (Node.js) ←→ MongoDB (Local/Atlas)
      ↓                              ↓
   localhost:5173              localhost:5000
 ```
 
 ### Production Environment
 ```
-Load Balancer ←→ Frontend (Nginx) ←→ Backend (Node.js Cluster) ←→ PostgreSQL (Managed)
+Load Balancer ←→ Frontend (Nginx) ←→ Backend (Node.js Cluster) ←→ MongoDB (Atlas)
                       ↓                        ↓                        ↓
-                 Static Assets           Application Logic         Persistent Data
+                 Static Assets           Application Logic         Document Store
 ```
 
 ## Extensibility Features
@@ -219,7 +219,7 @@ Load Balancer ←→ Frontend (Nginx) ←→ Backend (Node.js Cluster) ←→ Po
 - **Database migration** system
 
 ### Integration Points
-- **Multiple AI providers** support (OpenAI, Anthropic, etc.)
+- **Multiple AI providers** support (OpenRouter, OpenAI, Anthropic, etc.)
 - **Cloud storage** integration (AWS S3, Google Cloud)
 - **Analytics integration** hooks
 - **Webhook support** for external integrations

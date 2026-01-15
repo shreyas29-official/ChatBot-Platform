@@ -1,0 +1,28 @@
+const NodeCache = require('node-cache');
+
+// Cache for 5 minutes
+const cache = new NodeCache({ stdTTL: 300 });
+
+const cacheMiddleware = (duration = 300) => {
+  return (req, res, next) => {
+    const key = req.originalUrl;
+    const cachedResponse = cache.get(key);
+
+    if (cachedResponse) {
+      return res.json(cachedResponse);
+    }
+
+    // Store original json method
+    const originalJson = res.json;
+    
+    // Override json method to cache response
+    res.json = function(data) {
+      cache.set(key, data, duration);
+      originalJson.call(this, data);
+    };
+
+    next();
+  };
+};
+
+module.exports = { cache, cacheMiddleware };
